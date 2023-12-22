@@ -4,10 +4,7 @@ import com.example.entity.Roles;
 import com.example.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class TestController {
     @GetMapping("/user")
     @PreAuthorize("hasRole('ADMIN') or hasRole('USER') or hasRole('MODERATOR') ")
     public String user(){
-        return "page all";
+        return "user";
     }
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
@@ -35,6 +32,7 @@ public class TestController {
         return "page Admin";
     }
     @GetMapping("/mod")
+    @ResponseBody
     @PreAuthorize("hasRole('MODERATOR')")
     public String moderator(){
         return "page Mode";

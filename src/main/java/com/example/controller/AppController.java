@@ -13,6 +13,7 @@ import com.example.service.RoleService;
 import com.example.service.UserRoleService;
 import com.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 
@@ -64,19 +65,19 @@ public class AppController {
             listRole.add(userRole);
         }else {
             strRole.forEach(role->{
-                switch (role){
-                    case "admin":
+                switch (role) {
+                    case "admin" -> {
                         Roles adminRole = roleService.findRoleByName(ERole.ROLE_ADMIN);
                         listRole.add(adminRole);
-                        break;
-                    case "user":
+                    }
+                    case "user" -> {
                         Roles userRole = roleService.findRoleByName(ERole.ROLE_USER);
                         listRole.add(userRole);
-                        break;
-                    case "moderator":
+                    }
+                    case "moderator" -> {
                         Roles moderatorRole = roleService.findRoleByName(ERole.ROLE_MODERATOR);
                         listRole.add(moderatorRole);
-                        break;
+                    }
                 }
             });
         }
@@ -94,7 +95,6 @@ public class AppController {
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),loginRequest.getPassword()
                         );
-        System.out.println(authenticationToken);
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -102,10 +102,10 @@ public class AppController {
         String jwt = jwtTokenProvider.generateToken(cusTomUserDetail);
         List<String> listRoles = cusTomUserDetail.getAuthorities().stream()
                 .map(item -> item.getAuthority()).collect(Collectors.toList());
-        return ResponseEntity.ok(new JwtRespones(jwt,cusTomUserDetail.getId(),
+        return new ResponseEntity<>(new JwtRespones(jwt,cusTomUserDetail.getId(),
                 cusTomUserDetail.getUsername(),
                 listRoles
-                ));
+                ), HttpStatus.OK);
     }
 
 

@@ -23,7 +23,7 @@ public class JwtTokenProvider {
         Date dateExpired = new Date(now.getTime()+JWT_EXPIRATION);
         // tạo chuỗi jwt bằng userId
         return Jwts.builder()
-                .setSubject(cusTomUserDetail.getId().toString())
+                .setSubject(cusTomUserDetail.getUsername().toString())
                 .setIssuedAt(now)
                 .setExpiration(dateExpired)
                 .signWith(SignatureAlgorithm.HS512,JWT_SECRET)

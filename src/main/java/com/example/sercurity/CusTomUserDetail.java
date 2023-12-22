@@ -37,8 +37,6 @@ public class CusTomUserDetail implements UserDetails {
 
     // map tu user sang customuserdetail
     public CusTomUserDetail mapUserToUserDetail(Users users){
-
-        System.out.println("customDetail"+users.getUsername());
         List<GrantedAuthority> listAuthorities = users.getListRoles().stream()
                 .map(roles -> new SimpleGrantedAuthority(roles.getNameRole().name()))
                 .collect(Collectors.toList());

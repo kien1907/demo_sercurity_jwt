@@ -41,10 +41,10 @@ public class SecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests( auth -> auth
                 .requestMatchers("/api/v1/auth/**").permitAll()
-                .requestMatchers("/api/v1/test/**").permitAll()
                 .anyRequest().authenticated()
         )
                 .csrf().disable()
+                .addFilterBefore(jwtAuthenticationFilter(),UsernamePasswordAuthenticationFilter.class)
                 .rememberMe(Customizer.withDefaults());
         return http.build();
     }
